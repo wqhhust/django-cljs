@@ -1,0 +1,9 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div id="app"></div>
+{% endblock %}
+{% block extrajs %}
+<script>
+    window.onload = function() {cljsapp.core.main()}
+</script>
+{% endblock %}
