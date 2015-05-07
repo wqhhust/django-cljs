@@ -6,6 +6,7 @@ __pycache__/
 .nrepl-history
 *.py[cod]
 bower_components/
+base/static/base/cljsapp/
 # C extensions
 *.so
 
