@@ -31,8 +31,15 @@
   :hooks [leiningen.cljsbuild leiningen.less]
   :min-lein-version "2.5.0"
   :jvm-opts  ["-Xmx128m"  "-server" "-XX:+TieredCompilation"  "-XX:TieredStopAtLevel=1"]
-  :profiles {:dev {:cljsbuild
-                   {:builds {:client {
+  :profiles {:dev {:plugins [[lein-figwheel "0.3.1"]]
+                   :figwheel
+                   {:http-server-root "base/templates/base"
+                    :server-port 3449
+                    :css-dirs ["base/static/base/css"]}
+                   :cljsbuild
+                   {:builds {:client {:figwheel
+                                      {:websocket-host "localhost"
+                                       :on-jsload "cljsapp.core/reload-hook"}
                                       :compiler
                                       {:main cljsapp.core
                                        :optimizations :none
@@ -53,6 +60,7 @@
 
   :aliases {"clear-cljs" ["shell" "rm" "-Rf" "base/static/cljs"]
             "dev" ["pdo" "cljsbuild" "auto," "less" "auto"]
+            "dev-figwheel" ["pdo" "less" "auto," "figwheel"]
             "prod" ["do" "clear-cljs" "with-profile" "prod" "cljsbuild" "once"]
             "format" ["cljfmt" "check"]
             "format-fix" ["cljfmt" "fix"]
