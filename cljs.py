@@ -6,7 +6,7 @@
 import sys
 import os
 
-
+{% vertabim %}
 DB_TEMPLATE = """\
 (ns cljsapp.{0}.db)
 """
@@ -79,3 +79,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+{% endverbatim %}
