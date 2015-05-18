@@ -14,23 +14,23 @@
 
   :plugins [[lein-cljsbuild "1.0.5"]
             [lein-pdo  "0.1.1"]
-            [lein-cljfmt  "0.1.0"]
-            [lein-kibit  "0.1.2"]
-            [jonase/eastwood  "0.2.1"]
-            [lein-shell  "0.4.0"]
+            [lein-cljfmt "0.1.0"]
+            [lein-kibit "0.1.2"]
+            [jonase/eastwood "0.2.1"]
+            [lein-shell "0.4.0"]
             [lein-bower "0.5.1"]
             [lein-npm "0.5.0"]
-            [lein-less  "1.7.2"]]
+            [lein-less "1.7.2"]]
 
   :bower-dependencies [[bootstrap "3.3.4"
                         font-awesome "~4.3.0"]]
   :bower {:directory "base/static/base/bower_components"}
-  :less  {:source-paths  ["base/static/base/less"]
-          :target-path  "base/static/base/css"}
+  :less  {:source-paths ["base/static/base/less"]
+          :target-path "base/static/base/css"}
 
   :hooks [leiningen.cljsbuild leiningen.less]
   :min-lein-version "2.5.0"
-  :jvm-opts  ["-Xmx128m"  "-server" "-XX:+TieredCompilation"  "-XX:TieredStopAtLevel=1"]
+  :jvm-opts  ["-Xmx128m" "-server" "-XX:+TieredCompilation" "-XX:TieredStopAtLevel=1"]
   :profiles {:dev {:plugins [[lein-figwheel "0.3.1"]]
                    :figwheel
                    {:http-server-root "base/templates/base"
@@ -55,7 +55,7 @@
   :cljsbuild {:builds {:client {:source-paths ["src"]
                                 :compiler
                                 {:output-dir "base/static/base/cljs/js/out"
-                                 :asset-path   "/static/base/cljs/js/out"
+                                 :asset-path "/static/base/cljs/js/out"
                                  :output-to "base/static/base/cljs/main.js"}}}}
 
   :aliases {"clear-cljs" ["shell" "rm" "-Rf" "base/static/cljs"]
