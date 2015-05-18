@@ -6,7 +6,7 @@
 import sys
 import os
 
-{% vertabim %}
+{% verbatim %}
 DB_TEMPLATE = """\
 (ns cljsapp.{0}.db)
 """
