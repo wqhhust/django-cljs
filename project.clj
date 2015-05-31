@@ -9,7 +9,7 @@
                  [cljs-ajax "0.3.11"]
                  [prismatic/dommy "1.1.0"]
                  [garden "1.2.6"]
-                 [com.andrewmcveigh/cljs-time "0.3.4"]
+                 [com.andrewmcveigh/cljs-time "0.3.5"]
                  [secretary "1.2.3"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
