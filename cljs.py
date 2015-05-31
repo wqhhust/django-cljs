@@ -76,7 +76,6 @@ def main():
     cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs", "subs.cljs", "views.cljs", "styles.cljs"]
 
     for file_name in cljs_files:
-        #os.system("touch {}/{}/{}".format(SRC_PATH, panel_name, file_name))
         with file("{}/{}/{}".format(SRC_PATH, panel_name, file_name), "w") as outf:
             if file_name == "conf.cljs":
                 tpl = CONF_TEMPLATE
