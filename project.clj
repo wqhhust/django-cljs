@@ -5,10 +5,10 @@
                  [cljsjs/react-with-addons "0.13.3-0"]
                  [reagent-forms "0.5.1"]
                  [reagent-utils "0.1.4"]
-                 [re-frame "0.4.0"]
+                 [re-frame "0.4.1"]
                  [cljs-ajax "0.3.11"]
                  [prismatic/dommy "1.1.0"]
-                 [garden "1.2.5"]
+                 [garden "1.2.6"]
                  [com.andrewmcveigh/cljs-time "0.3.4"]
                  [secretary "1.2.3"]]
 
