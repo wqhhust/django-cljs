@@ -13,6 +13,7 @@
                  [secretary "1.2.3"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
+            [lein-ancient "0.6.7"]
             [lein-pdo  "0.1.1"]
             [lein-cljfmt "0.1.0"]
             [lein-kibit "0.1.2"]
