@@ -9,27 +9,30 @@ import os
 {% verbatim %}
 CONF_TEMPLATE = """\
 (ns cljsapp.{0}.conf
-  (:require [cljsapp.conf :as conf]))
+  (:require [cljsapp.conf :as conf]
+            [cljsapp.util as util]))
 """
 
 HANDLERS_TEMPLATE = """\
 (ns cljsapp.{0}.handlers
   (:require [re-frame.core :refer [dispatch dispatch-sync register-handler path trim-v after]]
-            [cljsapp.conf :as conf]
-            [cljsapp.{0}.conf :as local-conf]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [secretary.core :as secretary]
-            [ajax.core :refer [GET POST]]))
+            [ajax.core :refer [GET POST]]
+            [cljsapp.util as util]
+            [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]))
 """
 
 ROUTES_TEMPLATE = """\
 (ns cljsapp.{0}.routes
   (:require-macros [secretary.core :refer [defroute]])
   (:require [reagent.session :as session]
+            [re-frame.core :refer [dispatch dispatch-sync]]
+            [secretary.core :as secretary]
+            [cljsapp.util as util]
             [cljsapp.conf :as conf]
             [cljsapp.{0}.conf :as local-conf]
-            [secretary.core :as secretary]
-            [re-frame.core :refer [dispatch dispatch-sync]]
             [cljsapp.{0}.views :refer [{0}-component]]))
 
 (secretary/defroute "/{0}" [] (session/put! :current-page {0}-component))
@@ -39,31 +42,34 @@ SUBS_TEMPLATE = """\
 (ns cljsapp.{0}.subs
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :refer [register-sub]]
-            [cljsapp.{0}.conf :as local-conf]
-            [cljsapp.conf :as conf]))
+            [cljsapp.util as util]
+            [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]))
 """
 
 STYLES_TEMPLATE = """\
 (ns cljsapp.{0}.styles
-  (:require [cljsapp.conf :as conf]
-            [cljsapp.{0}.conf :as local-conf]
-            [garden.core :as garden :refer [css]]
+  (:require [garden.core :as garden :refer [css]]
             [garden.units :as u :refer [px pt]]
             [garden.color :as color :refer [hsl rgb]]
             [garden.stylesheet :refer [at-media]]
-            [garden.def :refer [defrule defkeyframes]]))
+            [garden.def :refer [defrule defkeyframes]]
+            [cljsapp.conf :as conf]
+            [cljsapp.util as util]
+            [cljsapp.{0}.conf :as local-conf]))
 """
 
 VIEWS_TEMPLATE = """\
 (ns cljsapp.{0}.views
   (:require [reagent.core :as r :refer [atom]]
             [re-frame.core :refer [dispatch dispatch-sync subscribe]]
+            [dommy.core :refer-macros [sel sel1]]
             [cljsapp.conf :as conf]
+            [cljsapp.util as util]
             [cljsapp.{0}.conf :as local-conf]
             [cljsapp.{0}.styles :as styles]
             [cljsapp.{0}.handlers]
-            [cljsapp.{0}.subs]
-            [dommy.core :refer-macros [sel sel1]]))
+            [cljsapp.{0}.subs]))
 
 (defn {0}-component []
   [:div.{0}-panel
@@ -83,7 +89,8 @@ def main():
         print "Error: Folder already exists"
         return
 
-    cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs", "subs.cljs", "views.cljs", "styles.cljs"]
+    cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs", 
+            "styles.cljs", "subs.cljs", "views.cljs"]
 
     for file_name in cljs_files:
         with file("{}/{}/{}".format(SRC_PATH, panel_name, file_name), "w") as outf:
@@ -93,12 +100,12 @@ def main():
                 tpl = HANDLERS_TEMPLATE
             elif file_name == "routes.cljs":
                 tpl = ROUTES_TEMPLATE
+            elif file_name == "styles.cljs":
+                tpl = STYLES_TEMPLATE
             elif file_name == "subs.cljs":
                 tpl = SUBS_TEMPLATE
             elif file_name == "views.cljs":
                 tpl = VIEWS_TEMPLATE
-            elif file_name == "styles.cljs":
-                tpl = STYLES_TEMPLATE
 
             outf.write(tpl.format(panel_name))
 
