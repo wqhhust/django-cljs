@@ -19,7 +19,7 @@ HANDLERS_TEMPLATE = """\
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [secretary.core :as secretary]
             [ajax.core :refer [GET POST]]
-            [cljsapp.util as util]
+            [cljsapp.util :as util]
             [cljsapp.conf :as conf]
             [cljsapp.{0}.conf :as local-conf]))
 """
@@ -30,7 +30,7 @@ ROUTES_TEMPLATE = """\
   (:require [reagent.session :as session]
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
-            [cljsapp.util as util]
+            [cljsapp.util :as util]
             [cljsapp.conf :as conf]
             [cljsapp.{0}.conf :as local-conf]
             [cljsapp.{0}.views :refer [{0}-component]]))
@@ -42,20 +42,20 @@ SUBS_TEMPLATE = """\
 (ns cljsapp.{0}.subs
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :refer [register-sub]]
-            [cljsapp.util as util]
+            [cljsapp.util :as util]
             [cljsapp.conf :as conf]
             [cljsapp.{0}.conf :as local-conf]))
 """
 
 STYLES_TEMPLATE = """\
 (ns cljsapp.{0}.styles
+  (:require-macros [garden.def :refer [defrule defkeyframes]])
   (:require [garden.core :as garden :refer [css]]
-            [garden.units :as u :refer [px pt]]
+            [garden.units :as units :refer [px pt]]
             [garden.color :as color :refer [hsl rgb]]
             [garden.stylesheet :refer [at-media]]
-            [garden.def :refer [defrule defkeyframes]]
             [cljsapp.conf :as conf]
-            [cljsapp.util as util]
+            [cljsapp.util :as util]
             [cljsapp.{0}.conf :as local-conf]))
 """
 
@@ -65,7 +65,7 @@ VIEWS_TEMPLATE = """\
             [re-frame.core :refer [dispatch dispatch-sync subscribe]]
             [dommy.core :refer-macros [sel sel1]]
             [cljsapp.conf :as conf]
-            [cljsapp.util as util]
+            [cljsapp.util :as util]
             [cljsapp.{0}.conf :as local-conf]
             [cljsapp.{0}.styles :as styles]
             [cljsapp.{0}.handlers]
@@ -89,7 +89,7 @@ def main():
         print "Error: Folder already exists"
         return
 
-    cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs", 
+    cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs",
             "styles.cljs", "subs.cljs", "views.cljs"]
 
     for file_name in cljs_files:
