@@ -8,12 +8,15 @@ import os
 
 {% verbatim %}
 CONF_TEMPLATE = """\
-(ns cljsapp.{0}.conf)
+(ns cljsapp.{0}.conf
+  (:require [cljsapp.conf :as conf]))
 """
 
 HANDLERS_TEMPLATE = """\
 (ns cljsapp.{0}.handlers
   (:require [re-frame.core :refer [dispatch dispatch-sync register-handler path trim-v after]]
+            [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [secretary.core :as secretary]
             [ajax.core :refer [GET POST]]))
@@ -23,6 +26,8 @@ ROUTES_TEMPLATE = """\
 (ns cljsapp.{0}.routes
   (:require-macros [secretary.core :refer [defroute]])
   (:require [reagent.session :as session]
+            [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]
             [secretary.core :as secretary]
             [re-frame.core :refer [dispatch dispatch-sync]]
             [cljsapp.{0}.views :refer [{0}-component]]))
@@ -33,12 +38,16 @@ ROUTES_TEMPLATE = """\
 SUBS_TEMPLATE = """\
 (ns cljsapp.{0}.subs
   (:require-macros [reagent.ratom :refer [reaction]])
-  (:require [re-frame.core :refer [register-sub]]))
+  (:require [re-frame.core :refer [register-sub]]
+            [cljsapp.{0}.conf :as local-conf]
+            [cljsapp.conf :as conf]))
 """
 
 STYLES_TEMPLATE = """\
 (ns cljsapp.{0}.styles
-  (:require [garden.core :as garden :refer [css]]
+  (:require [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]
+            [garden.core :as garden :refer [css]]
             [garden.units :as u :refer [px pt]]
             [garden.color :as color :refer [hsl rgb]]
             [garden.stylesheet :refer [at-media]]
@@ -49,7 +58,8 @@ VIEWS_TEMPLATE = """\
 (ns cljsapp.{0}.views
   (:require [reagent.core :as r :refer [atom]]
             [re-frame.core :refer [dispatch dispatch-sync subscribe]]
-            [cljsapp.{0}.conf :as conf]
+            [cljsapp.conf :as conf]
+            [cljsapp.{0}.conf :as local-conf]
             [cljsapp.{0}.styles :as styles]
             [cljsapp.{0}.handlers]
             [cljsapp.{0}.subs]
