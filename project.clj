@@ -8,7 +8,7 @@
                  [re-frame "0.4.1"]
                  [cljs-ajax "0.3.11"]
                  [prismatic/dommy "1.1.0"]
-                 [garden "1.2.6"]
+                 [garden "1.2.5"]
                  [com.andrewmcveigh/cljs-time "0.3.5"]
                  [secretary "1.2.3"]]
 
