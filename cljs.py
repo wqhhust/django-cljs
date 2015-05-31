@@ -7,13 +7,15 @@ import sys
 import os
 
 {% verbatim %}
-DB_TEMPLATE = """\
-(ns cljsapp.{0}.db)
+CONF_TEMPLATE = """\
+(ns cljsapp.{0}.conf)
 """
 
 HANDLERS_TEMPLATE = """\
 (ns cljsapp.{0}.handlers
   (:require [re-frame.core :refer [dispatch dispatch-sync register-handler path trim-v after]]
+            [dommy.core :as dommy :refer-macros [sel sel1]]
+            [secretary.core :as secretary]
             [ajax.core :refer [GET POST]]))
 """
 
@@ -34,10 +36,23 @@ SUBS_TEMPLATE = """\
   (:require [re-frame.core :refer [register-sub]]))
 """
 
+STYLES_TEMPLATE = """\
+(ns cljsapp.{0}.styles
+  (:require [garden.core :as garden :refer [css]]
+            [garden.units :as u :refer [px pt]]
+            [garden.color :as color :refer [hsl rgb]]
+            [garden.stylesheet :refer [at-media]]
+            [garden.def :refer [defrule defkeyframes]]))
+"""
+
 VIEWS_TEMPLATE = """\
 (ns cljsapp.{0}.views
   (:require [reagent.core :as r :refer [atom]]
-            [re-frame.core :refer [dispatch dispatch-sync]]
+            [re-frame.core :refer [dispatch dispatch-sync subscribe]]
+            [cljsapp.{0}.conf :as conf]
+            [cljsapp.{0}.styles :as styles]
+            [cljsapp.{0}.handlers]
+            [cljsapp.{0}.subs]
             [dommy.core :refer-macros [sel sel1]]))
 
 (defn {0}-component []
@@ -58,13 +73,13 @@ def main():
         print "Error: Folder already exists"
         return
 
-    cljs_files = ["db.cljs", "handlers.cljs", "routes.cljs", "subs.cljs", "views.cljs"]
+    cljs_files = ["conf.cljs", "handlers.cljs", "routes.cljs", "subs.cljs", "views.cljs", "styles.cljs"]
 
     for file_name in cljs_files:
         #os.system("touch {}/{}/{}".format(SRC_PATH, panel_name, file_name))
         with file("{}/{}/{}".format(SRC_PATH, panel_name, file_name), "w") as outf:
-            if file_name == "db.cljs":
-                tpl = DB_TEMPLATE
+            if file_name == "conf.cljs":
+                tpl = CONF_TEMPLATE
             elif file_name == "handlers.cljs":
                 tpl = HANDLERS_TEMPLATE
             elif file_name == "routes.cljs":
@@ -73,6 +88,8 @@ def main():
                 tpl = SUBS_TEMPLATE
             elif file_name == "views.cljs":
                 tpl = VIEWS_TEMPLATE
+            elif file_name == "styles.cljs":
+                tpl = STYLES_TEMPLATE
 
             outf.write(tpl.format(panel_name))
 
