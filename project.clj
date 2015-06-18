@@ -6,10 +6,10 @@
                  [reagent-forms "0.5.1"]
                  [reagent-utils "0.1.4"]
                  [re-frame "0.4.1"]
-                 [cljs-ajax "0.3.11"]
+                 [cljs-ajax "0.3.13"]
                  [prismatic/dommy "1.1.0"]
                  [garden "1.2.5"]
-                 [com.andrewmcveigh/cljs-time "0.3.5"]
+                 [com.andrewmcveigh/cljs-time "0.3.6"]
                  [secretary "1.2.3"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
