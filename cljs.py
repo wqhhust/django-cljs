@@ -1,3 +1,4 @@
+{% verbatim %}
 ##
 # This is a cheap convenience I had to bake in 2/3 minutes, will turn into a Django custom command with more meat
 # This is not to be taken seriously :-)
@@ -6,11 +7,11 @@
 import sys
 import os
 
-{% verbatim %}
+
 CONF_TEMPLATE = """\
 (ns cljsapp.{0}.conf
   (:require [cljsapp.conf :as conf]
-            [cljsapp.util as util]))
+            [cljsapp.util :as util]))
 """
 
 HANDLERS_TEMPLATE = """\
@@ -18,7 +19,7 @@ HANDLERS_TEMPLATE = """\
   (:require [re-frame.core :refer [dispatch dispatch-sync register-handler path trim-v after]]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [secretary.core :as secretary]
-            [ajax.core :refer [GET POST]]
+            [ajax.core :refer [GET POST json-request-format json-response-format keyword-request-format]]
             [cljsapp.util :as util]
             [cljsapp.conf :as conf]
             [cljsapp.{0}.conf :as local-conf]))
@@ -63,7 +64,7 @@ VIEWS_TEMPLATE = """\
 (ns cljsapp.{0}.views
   (:require [reagent.core :as r :refer [atom]]
             [re-frame.core :refer [dispatch dispatch-sync subscribe]]
-            [dommy.core :refer-macros [sel sel1]]
+            [dommy.core :as dommy :refer-macros [sel sel1]]
             [cljsapp.conf :as conf]
             [cljsapp.util :as util]
             [cljsapp.{0}.conf :as local-conf]
